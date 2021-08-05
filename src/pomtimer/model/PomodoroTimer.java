@@ -7,7 +7,7 @@ import java.util.List;
  * This class represents the pomodoro timer in which the user can use the pomodoro technique to complete their tasks.
  * A user can add tasks (these tasks can be named, can be indicated the number of pomodoros it should take, and
  * checked off to indicate completion) and perform different operations on the timer. The number of minutes on the
- * timer is dependent on the type of operation that is occuring (pomodoro, short break, or long break). Pomodoros
+ * timer is dependent on the type of operation that is occurring (pomodoro, short break, or long break). Pomodoros
  * are followed by a short break, but is followed by a long break every four pomodoros.
  */
 public class PomodoroTimer implements IPomodoroTimer {

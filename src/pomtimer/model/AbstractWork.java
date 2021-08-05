@@ -21,7 +21,7 @@ public abstract class AbstractWork implements IWork {
         this.isRunning = false;
         this.interval = 1000;
         this.elapsedTime = 0;
-        this.duration = duration * 1000;
+        this.duration = duration * 1000L;
     }
 
     @Override
