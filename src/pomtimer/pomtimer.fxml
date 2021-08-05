@@ -9,15 +9,15 @@
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Pomodoro">
+            <Button fx:id="pomodoroButton" mnemonicParsing="false" onAction="#pressPomodoroButton" text="Pomodoro">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" text="Short Break">
+            <Button fx:id="shortBreakButton" mnemonicParsing="false" onAction="#pressShortBreakButton" text="Short Break">
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" text="Long Break">
+            <Button fx:id="longBreakButton" mnemonicParsing="false" onAction="#pressLongBreakButton" text="Long Break">
                <HBox.margin>
                   <Insets left="30.0" />
                </HBox.margin></Button>
@@ -38,24 +38,29 @@
                </font></Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Start">
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#pressStartButton" text="Start">
                      <HBox.margin>
                         <Insets right="25.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Reset">
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#pressStopButton" text="Stop">
                      <HBox.margin>
                         <Insets left="25.0" right="25.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Skip">
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#pressResetButton" text="Reset">
+                     <HBox.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="skipButton" mnemonicParsing="false" onAction="#pressSkipButton" text="Skip">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
-            <Label text="Pomodoro: #" />
+            <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" />
             <Label text="Working on: " />
          </children>
       </VBox>

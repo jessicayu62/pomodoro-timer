@@ -14,7 +14,7 @@ public abstract class AbstractWork implements IWork {
     protected long interval;  // One second interval between tasks
     protected long elapsedTime;  // The number of milliseconds that have passed as the time runs
     protected long duration;  // How long the timer is in seconds
-    protected static int pomodoroCounter = 0;
+//    protected static int pomodoroCounter = 0;
 
     public AbstractWork(int duration) {
         this.timer = new Timer();
@@ -26,44 +26,46 @@ public abstract class AbstractWork implements IWork {
 
     @Override
     public void startTimer() {
-        this.isRunning = true;
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                elapsedTime += AbstractWork.this.interval;
-                if (elapsedTime >= duration) {
-                    timer.cancel();
-                    pomodoroCounter++;
+        if (!this.isRunning) {
+            this.isRunning = true;
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    elapsedTime += AbstractWork.this.interval;
+                    System.out.println(getRemainingTime());
+                    if (elapsedTime >= duration) {
+                        timer.cancel();
+//                    pomodoroCounter++;
+                    }
                 }
-            }
-        }, 0, 1000);
+            }, 0, 1000);
+        }
     }
 
     @Override
     public void pauseTimer() {
-        if (!this.isRunning) {
-            throw new IllegalArgumentException("Impossible, cannot pause the timer when it has not been started.");
-        }
+//        if (!this.isRunning) {
+//            throw new IllegalArgumentException("Impossible, cannot pause the timer when it has not been started.");
+//        }
         this.isRunning = false;
         timer.cancel();
     }
 
     @Override
     public void skipTimer() {
-        if (!this.isRunning) {
-            throw new IllegalArgumentException("Impossible, cannot skip the timer when it has not been started.");
-        }
+//        if (!this.isRunning) {
+//            throw new IllegalArgumentException("Impossible, cannot skip the timer when it has not been started.");
+//        }
         this.isRunning = false;
         timer.cancel();
-        pomodoroCounter++;
     }
 
     @Override
     public void resetTimer() {
-        if (!this.isRunning) {
-            throw new IllegalArgumentException("Impossible, cannot restart the timer when it has not been started.");
-        }
+//        if (!this.isRunning) {
+//            throw new IllegalArgumentException("Impossible, cannot restart the timer when it has not been started.");
+//        }
         this.isRunning = false;
         timer.cancel();
         this.elapsedTime = 0;
@@ -79,7 +81,7 @@ public abstract class AbstractWork implements IWork {
         return this.isRunning;
     }
 
-    public static int getPomodoroCounter() {
-        return pomodoroCounter;
-    }
+//    public static int getPomodoroCounter() {
+//        return pomodoroCounter;
+//    }
 }

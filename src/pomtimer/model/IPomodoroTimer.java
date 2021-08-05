@@ -42,70 +42,88 @@ public interface IPomodoroTimer {
      */
     void removeTask(ITask task) throws IllegalArgumentException;
 
-    /**
-     * Removes the completed tasks from the list of tasks.
-     */
-    void clearFinishedTasks();
 
-    /**
-     * Starts/Resumes the pomodoro timer.
-     */
-    void startPomodoro();
+    String getRemainingTime();
+//    /**
+//     * Removes the completed tasks from the list of tasks.
+//     */
+//    void clearFinishedTasks();
 
-    /**
-     * Pauses the pomodoro timer.
-     */
-    void pausePomodoro();
+//    /**
+//     * Starts/Resumes the pomodoro timer.
+//     */
+//    void startPomodoro();
+//
+//    /**
+//     * Pauses the pomodoro timer.
+//     */
+//    void pausePomodoro();
+//
+//    /**
+//     * Skips the pomodoro timer.
+//     */
+//    void skipPomodoro();
+//
+//    /**
+//     * Resetes the pomodoro timer.
+//     */
+//    void resetPomodoro();
+//
+//    /**
+//     * Starts the short break timer.
+//     */
+//    void startShort();
+//
+//    /**
+//     * Pauses the short break timer.
+//     */
+//    void pauseShort();
+//
+//    /**
+//     * Skips the short break timer.
+//     */
+//    void skipShort();
+//
+//    /**
+//     * Resets the short break timer.
+//     */
+//    void resetShort();
+//
+//    /**
+//     * Starts the long break.
+//     */
+//    void startLong();
+//
+//    /**
+//     * Pauses the long break.
+//     */
+//    void pauseLong();
+//
+//    /**
+//     * Skips the long break.
+//     */
+//    void skipLong();
+//
+//    /**
+//     * Resets the long break.
+//     */
+//    void resetLong();
 
-    /**
-     * Skips the pomodoro timer.
-     */
-    void skipPomodoro();
+    void startTimer();
 
-    /**
-     * Resetes the pomodoro timer.
-     */
-    void resetPomodoro();
+    void pauseTimer();
 
-    /**
-     * Starts the short break timer.
-     */
-    void startShort();
+    void skipTimer();
 
-    /**
-     * Pauses the short break timer.
-     */
-    void pauseShort();
+    void resetTimer();
 
-    /**
-     * Skips the short break timer.
-     */
-    void skipShort();
+    void changeToNextOperation();
 
-    /**
-     * Resets the short break timer.
-     */
-    void resetShort();
+    void goToPomodoro();
 
-    /**
-     * Starts the long break.
-     */
-    void startLong();
+    void goToShortBreak();
 
-    /**
-     * Pauses the long break.
-     */
-    void pauseLong();
-
-    /**
-     * Skips the long break.
-     */
-    void skipLong();
-
-    /**
-     * Resets the long break.
-     */
-    void resetLong();
+    void goToLongBreak();
 
     /**
      * Returns a deep copy of the list of tasks that the user has entered.
