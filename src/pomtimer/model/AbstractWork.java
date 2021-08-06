@@ -33,7 +33,6 @@ public abstract class AbstractWork implements IWork {
                 @Override
                 public void run() {
                     elapsedTime += AbstractWork.this.interval;
-                    System.out.println(getRemainingTime());
                     if (elapsedTime >= duration) {
                         timer.cancel();
 //                    pomodoroCounter++;

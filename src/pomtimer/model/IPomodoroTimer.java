@@ -49,6 +49,43 @@ public interface IPomodoroTimer {
 //     */
 //    void clearFinishedTasks();
 
+    void startTimer();
+
+    void pauseTimer();
+
+    void skipTimer();
+
+    void resetTimer();
+
+    void changeToNextOperation();
+
+    void goToPomodoro();
+
+    void goToShortBreak();
+
+    void goToLongBreak();
+
+    /**
+     * Returns a deep copy of the list of tasks that the user has entered.
+     * @return  list of tasks that the user has entered.
+     */
+    List<ITask> getTasksList();
+
+    /**
+     * Returns the number of pomodoros that the user has gone through so far.
+     * @return the number of pomodoros that the user has gone through so far.
+     */
+    int getNumPomodoros();
+
+    boolean isOnPomodoro();
+
+    boolean isOnShortBreak();
+
+    boolean isOnLongBreak();
+
+}
+
+
 //    /**
 //     * Starts/Resumes the pomodoro timer.
 //     */
@@ -108,34 +145,3 @@ public interface IPomodoroTimer {
 //     * Resets the long break.
 //     */
 //    void resetLong();
-
-    void startTimer();
-
-    void pauseTimer();
-
-    void skipTimer();
-
-    void resetTimer();
-
-    void changeToNextOperation();
-
-    void goToPomodoro();
-
-    void goToShortBreak();
-
-    void goToLongBreak();
-
-    /**
-     * Returns a deep copy of the list of tasks that the user has entered.
-     * @return  list of tasks that the user has entered.
-     */
-    List<Task> getTasksList();
-
-    /**
-     * Returns the number of pomodoros that the user has gone through so far.
-     * @return the number of pomodoros that the user has gone through so far.
-     */
-    int getNumPomodoros();
-
-
-}

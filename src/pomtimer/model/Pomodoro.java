@@ -7,5 +7,6 @@ package pomtimer.model;
 public class Pomodoro extends AbstractWork {
     public Pomodoro() {
         super(1500);
+//        super(30);
     }
 }

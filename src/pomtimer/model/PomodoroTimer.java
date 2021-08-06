@@ -2,7 +2,6 @@ package pomtimer.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This class represents the pomodoro timer in which the user can use the pomodoro technique to complete their tasks.
@@ -20,6 +19,7 @@ public class PomodoroTimer implements IPomodoroTimer {
     private final IWork longBreak;
     private boolean onPomodoro;
     private boolean onShortBreak;
+    private boolean onLongBreak;
 
     public PomodoroTimer() {
         this.tasks = new ArrayList<>();
@@ -30,6 +30,7 @@ public class PomodoroTimer implements IPomodoroTimer {
         this.longBreak = new LongBreak();
         this.onPomodoro = true;
         this.onShortBreak = false;
+        this.onLongBreak = false;
     }
 
     @Override
@@ -78,16 +79,20 @@ public class PomodoroTimer implements IPomodoroTimer {
     private String convertTime(long remainingTime) {
         long minutes = (remainingTime / 1000)  / 60;
         int seconds = (int)((remainingTime / 1000) % 60);
+        String min = String.valueOf(minutes);
+        if (min.length() == 1) {
+            min = "0" + min;
+        }
         String sec = String.valueOf(seconds);
         if (sec.length() == 1) {
             sec = "0" + sec;
         }
-        return minutes + ":" + sec;
+        return min + ":" + sec;
     }
 
     @Override
     public void startTimer() {
-        if (pomodorosPassed % 4 == 0 && !onPomodoro) {
+        if (this.onLongBreak || (pomodorosPassed % 4 == 0 && !onPomodoro && !onShortBreak)) {
             this.longBreak.startTimer();
         } else if (onPomodoro) {
             this.pomodoro.startTimer();
@@ -98,7 +103,7 @@ public class PomodoroTimer implements IPomodoroTimer {
 
     @Override
     public void pauseTimer() {
-        if (pomodorosPassed % 4 == 0 && !onPomodoro) {
+        if (this.onLongBreak || (pomodorosPassed % 4 == 0 && !onPomodoro && !onShortBreak)) {
             this.longBreak.pauseTimer();
         } else if (onPomodoro) {
             this.pomodoro.pauseTimer();
@@ -109,9 +114,10 @@ public class PomodoroTimer implements IPomodoroTimer {
 
     @Override
     public void skipTimer() {
-        if (pomodorosPassed % 4 == 0 && !onPomodoro) {
+        if (this.onLongBreak || (pomodorosPassed % 4 == 0 && !onPomodoro && !onShortBreak)) {
             this.longBreak.skipTimer();
             this.onPomodoro = true;
+            this.onLongBreak = false;
             this.longBreak.resetTimer();
         } else if (onPomodoro) {
             this.pomodoro.skipTimer();
@@ -119,20 +125,24 @@ public class PomodoroTimer implements IPomodoroTimer {
             this.onPomodoro = false;
             if (pomodorosPassed % 4 == 0) {
                 this.onShortBreak = false;
+                this.onLongBreak = true;
             } else {
                 this.onShortBreak = true;
+                this.onLongBreak = false;
             }
             this.pomodoro.resetTimer();
         } else {
             this.shortBreak.skipTimer();
             this.onPomodoro = true;
+            this.onShortBreak = false;
+            this.onLongBreak = false;
             this.shortBreak.resetTimer();
         }
     }
 
     @Override
     public void resetTimer() {
-        if (pomodorosPassed % 4 == 0 && !onPomodoro) {
+        if (this.onLongBreak || (pomodorosPassed % 4 == 0 && !onPomodoro && !onShortBreak)) {
             this.longBreak.resetTimer();
         } else if (onPomodoro) {
             this.pomodoro.resetTimer();
@@ -143,18 +153,28 @@ public class PomodoroTimer implements IPomodoroTimer {
 
     @Override
     public void changeToNextOperation() {
-        if ((pomodorosPassed - 1) % 4 == 0) {
+        if (this.onLongBreak || (pomodorosPassed % 4 == 0 && !onPomodoro && !onShortBreak)) {
             this.onPomodoro = true;
+            this.onLongBreak = false;
+            this.longBreak.resetTimer();
         } else if (onPomodoro) {
             this.onPomodoro = false;
             this.pomodorosPassed ++;
             if (pomodorosPassed % 4 == 0) {
                 this.onShortBreak = false;
+                this.onLongBreak = true;
+//                this.longBreak.resetTimer();
             } else {
                 this.onShortBreak = true;
+                this.onLongBreak = false;
+//                this.shortBreak.resetTimer();
             }
+            this.pomodoro.resetTimer();
         } else {
             this.onPomodoro = true;
+            this.onShortBreak = false;
+            this.onLongBreak = false;
+            this.shortBreak.resetTimer();
         }
     }
 
@@ -162,6 +182,7 @@ public class PomodoroTimer implements IPomodoroTimer {
     public void goToPomodoro() {
         this.onPomodoro = true;
         this.onShortBreak = false;
+        this.onLongBreak = false;
         this.pomodoro.resetTimer();
     }
 
@@ -169,6 +190,7 @@ public class PomodoroTimer implements IPomodoroTimer {
     public void goToShortBreak() {
         this.onPomodoro = false;
         this.onShortBreak = true;
+        this.onLongBreak = false;
         this.shortBreak.resetTimer();
     }
 
@@ -176,6 +198,7 @@ public class PomodoroTimer implements IPomodoroTimer {
     public void goToLongBreak() {
         this.onPomodoro = false;
         this.onShortBreak = false;
+        this.onLongBreak = true;
         this.longBreak.resetTimer();
     }
 
@@ -266,8 +289,8 @@ public class PomodoroTimer implements IPomodoroTimer {
 //    }
 
     @Override
-    public List<Task> getTasksList() {
-        List<Task> taskList = new ArrayList<>();
+    public List<ITask> getTasksList() {
+        List<ITask> taskList = new ArrayList<>();
         for (Task value : tasks) {
             Task task = new Task(value.getName(), value.getNumPomodoros());
             taskList.add(task);
@@ -278,6 +301,21 @@ public class PomodoroTimer implements IPomodoroTimer {
     @Override
     public int getNumPomodoros() {
         return pomodorosPassed;
+    }
+
+    @Override
+    public boolean isOnPomodoro() {
+        return onPomodoro;
+    }
+
+    @Override
+    public boolean isOnShortBreak() {
+        return onShortBreak;
+    }
+
+    @Override
+    public boolean isOnLongBreak() {
+        return onLongBreak;
     }
 
 }

@@ -5,22 +5,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="900.0" maxWidth="1200.0" minHeight="500.0" minWidth="550.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pomtimer.Controller">
+<BorderPane fx:id="background" maxHeight="900.0" maxWidth="1200.0" minHeight="500.0" minWidth="550.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F08A8A; -fx-background-color: #93D7A7; -fx-background-color: #93CED7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pomtimer.Controller">
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pomodoroButton" mnemonicParsing="false" onAction="#pressPomodoroButton" text="Pomodoro">
+            <Button fx:id="pomodoroButton" mnemonicParsing="false" onAction="#pressPomodoroButton" style="-fx-background-color: #E6C3c3;" text="Pomodoro" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin></Button>
-            <Button fx:id="shortBreakButton" mnemonicParsing="false" onAction="#pressShortBreakButton" text="Short Break">
+            <Button fx:id="shortBreakButton" mnemonicParsing="false" onAction="#pressShortBreakButton" style="-fx-background-color: #BAD7C3;" text="Short Break" textFill="WHITE">
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
-               </HBox.margin></Button>
-            <Button fx:id="longBreakButton" mnemonicParsing="false" onAction="#pressLongBreakButton" text="Long Break">
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+            <Button fx:id="longBreakButton" mnemonicParsing="false" onAction="#pressLongBreakButton" style="-fx-background-color: #B9D6DB;" text="Long Break" textFill="WHITE">
                <HBox.margin>
                   <Insets left="30.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
          </children>
          <opaqueInsets>
             <Insets />
@@ -29,7 +35,7 @@
    <center>
       <VBox alignment="CENTER" prefHeight="382.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="timerLabel" text="Timer">
+            <Label fx:id="timerLabel" text="Timer" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="20.0" top="20.0" />
                </VBox.margin>
@@ -80,7 +86,10 @@
                </HBox.margin></Pane>
             <VBox prefHeight="176.0" prefWidth="680.0">
                <children>
-                  <ListView fx:id="taskList" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="taskList" prefHeight="200.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin></ListView>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Button mnemonicParsing="false" text="Delete">
