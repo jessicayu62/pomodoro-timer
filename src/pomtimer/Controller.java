@@ -8,8 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -108,34 +106,68 @@ public class Controller implements Initializable {
         }
     }
 
+    public void deleteSelectedTask(ActionEvent event) {
+        int lastClickedTaskIndex = taskList.getSelectionModel().getSelectedIndex();
+        if (lastClickedTaskIndex >= 0) {
+            model.removeTask(lastClickedTaskIndex);
+            updateTaskList();
+        }
+    }
+
+    public void editSelectedTaskName(ActionEvent event) {
+        int lastClickedTaskIndex = taskList.getSelectionModel().getSelectedIndex();
+        if (lastClickedTaskIndex >= 0) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Edit Name");
+            dialog.setHeaderText("Edit Task Description");
+            dialog.setContentText("Enter task:");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                String newName = result.get();
+                model.editTaskName(newName, lastClickedTaskIndex);
+                updateTaskList();
+            }
+        }
+    }
+
+    public void editSelectedTaskNumPomodoros(ActionEvent event) {
+        int lastClickedTaskIndex = taskList.getSelectionModel().getSelectedIndex();
+        if (lastClickedTaskIndex >= 0) {
+            Dialog<String> dialog = new Dialog<String>();
+            dialog.setTitle("Edit # Pomodoros");
+            dialog.setHeaderText("Edit Number of Pomodoros");
+            Label pomLabel = new Label("Est Pomodoros");
+            final Spinner<Integer> dialogPomSpinner = new Spinner<>();
+            dialogPomSpinner.setEditable(true);
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
+            dialogPomSpinner.setValueFactory(valueFactory);
+            HBox editPomBox = new HBox(10, pomLabel, dialogPomSpinner);
+            ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().setContent(editPomBox);
+            dialog.getDialogPane().getButtonTypes().addAll(OKButton, ButtonType.CANCEL);
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == OKButton) {
+                    model.editNumPomodoros(dialogPomSpinner.getValue(), lastClickedTaskIndex);
+                    updateTaskList();
+                }
+                return null;
+            });
+            dialog.showAndWait();
+        }
+    }
+
     private void updateTaskList() {
-//        List<String> taskNames = new ArrayList<>();
-//        for (int i = 0; i < model.getTasksList().size(); i++) {
-//            taskNames.add(model.getTasksList().get(i).getName());
-//        }
-//        ObservableList<String> taskItems = FXCollections.observableList(taskNames);
         List<ITask> tasks = model.getTasksList();
         List<HBox> taskItems = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++) {
             HBox buttonAndNameBox = new HBox(5);
             Button checkmarkButton = new Button("C");
             String taskText = model.getTasksList().get(i).getName();
-
-            int j = 0;
+            String originalText = model.getTasksList().get(i).getName();
             if (taskText.length() >= 29) {
-                taskText = "";
-                while (model.getTasksList().get(i).getName().length() > taskText.length()) {
-                    if (model.getTasksList().get(i).getName().length() - taskText.length() < 29) {
-                        taskText += model.getTasksList().get(i).getName().substring(j);
-                    } else {
-                        String currText = model.getTasksList().get(i).getName().substring(j, j + 29);
-                        int lastInd = currText.lastIndexOf(" ");
-                        taskText += model.getTasksList().get(i).getName().substring(j, j + lastInd + 1) + "\n";
-                        j = j + lastInd + 1;
-                    }
-                }
+                taskText = getTextWithRevisedSpacing(originalText);
             }
-
             Label taskName = new Label(taskText);
             buttonAndNameBox.getChildren().addAll(checkmarkButton, taskName);
             buttonAndNameBox.setPrefWidth(taskText.length() + 200);
@@ -147,6 +179,28 @@ public class Controller implements Initializable {
         }
         ObservableList<HBox> taskHBoxItems = FXCollections.observableList(taskItems);
         taskList.setItems(taskHBoxItems);
+    }
+
+    private String getTextWithRevisedSpacing(String originalText) {
+        int j = 0;
+        String taskText = "";
+        while (originalText.length() > taskText.length()) {
+            if (originalText.length() - taskText.length() < 29) {
+                taskText += originalText.substring(j);
+            } else {
+                String currText = originalText.substring(j, j + 29);
+                int lastInd = currText.lastIndexOf(" ");
+                if (lastInd == -1) {
+                    String row = originalText.substring(j, j + 29);
+                    taskText += row + "\n";
+                    j += 29;
+                } else {
+                    taskText += originalText.substring(j, j + lastInd + 1) + "\n";
+                    j = j + lastInd + 1;
+                }
+            }
+        }
+        return taskText;
     }
 
     private void setBackgroundColor() {

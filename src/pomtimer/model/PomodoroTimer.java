@@ -58,11 +58,27 @@ public class PomodoroTimer implements IPomodoroTimer {
     }
 
     @Override
-    public void removeTask(ITask task) {
-        if (task == null || tasks.isEmpty() || !tasks.contains(task)) {
+    public void editTaskName(String name, int index) throws IllegalArgumentException {
+        if (tasks.isEmpty() || index < 0 || index >= tasks.size() || name == null) {
+            throw new IllegalArgumentException("Cannot rename this task.");
+        }
+        tasks.get(index).setName(name);
+    }
+
+    @Override
+    public void editNumPomodoros(int numPoms, int index) throws IllegalArgumentException {
+        if (tasks.isEmpty() || index < 0 || index >= tasks.size() || numPoms <= 0 || numPoms > 100) {
+            throw new IllegalArgumentException("Cannot edit the pomodoros for this task.");
+        }
+        tasks.get(index).setNumPomodoros(numPoms);
+    }
+
+    @Override
+    public void removeTask(int index) {
+        if (tasks.isEmpty() || index < 0 || index >= tasks.size()) {
             throw new IllegalArgumentException("Cannot remove this task.");
         }
-        this.tasks.remove(task);
+        this.tasks.remove(index);
     }
 
     @Override

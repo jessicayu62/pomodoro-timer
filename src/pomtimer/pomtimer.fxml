@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -9,18 +10,18 @@
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pomodoroButton" mnemonicParsing="false" onAction="#pressPomodoroButton" style="-fx-background-color: #E6C3c3;" text="Pomodoro" textFill="WHITE">
+            <Button fx:id="pomodoroButton" mnemonicParsing="false" onAction="#pressPomodoroButton" style="-fx-background-color: #E6C3c3; -fx-cursor: hand;" text="Pomodoro" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin></Button>
-            <Button fx:id="shortBreakButton" mnemonicParsing="false" onAction="#pressShortBreakButton" style="-fx-background-color: #BAD7C3;" text="Short Break" textFill="WHITE">
+            <Button fx:id="shortBreakButton" mnemonicParsing="false" onAction="#pressShortBreakButton" style="-fx-background-color: #BAD7C3; -fx-cursor: hand;" text="Short Break" textFill="WHITE">
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
                </HBox.margin>
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <Button fx:id="longBreakButton" mnemonicParsing="false" onAction="#pressLongBreakButton" style="-fx-background-color: #B9D6DB;" text="Long Break" textFill="WHITE">
+            <Button fx:id="longBreakButton" mnemonicParsing="false" onAction="#pressLongBreakButton" style="-fx-background-color: #B9D6DB; -fx-cursor: hand;" text="Long Break" textFill="WHITE">
                <HBox.margin>
                   <Insets left="30.0" />
                </HBox.margin>
@@ -44,30 +45,58 @@
                </font></Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#pressStartButton" text="Start">
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#pressStartButton" style="-fx-background-color: transparent; -fx-cursor: hand;">
                      <HBox.margin>
                         <Insets right="25.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/pomtimer/img/start.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#pressStopButton" text="Stop">
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#pressStopButton" style="-fx-background-color: transparent; -fx-cursor: hand;">
                      <HBox.margin>
                         <Insets left="25.0" right="25.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/pomtimer/img/pause.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#pressResetButton" text="Reset">
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#pressResetButton" style="-fx-background-color: transparent; -fx-cursor: hand;">
                      <HBox.margin>
                         <Insets left="25.0" right="25.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/pomtimer/img/reset.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button fx:id="skipButton" mnemonicParsing="false" onAction="#pressSkipButton" text="Skip">
+                  <Button fx:id="skipButton" mnemonicParsing="false" onAction="#pressSkipButton" style="-fx-background-color: transparent; -fx-cursor: hand;">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/pomtimer/img/skip.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" />
-            <Label text="Working on: " />
+            <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" textFill="WHITE" />
+            <Label text="Working on: " textFill="WHITE" />
          </children>
       </VBox>
    </center>
@@ -76,33 +105,33 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="pomTaskText" layoutX="15.0" layoutY="14.0" prefHeight="42.0" prefWidth="337.0" promptText="What are you working on?" />
-                  <Spinner fx:id="pomSpinner" editable="true" layoutX="130.0" layoutY="74.0" prefHeight="33.0" prefWidth="77.0" />
-                  <Label layoutX="21.0" layoutY="82.0" text="Est Pomodoros" />
-                  <Button layoutX="270.0" layoutY="117.0" mnemonicParsing="false" onAction="#pressAddTaskButton" text="Add Task" />
+                  <TextField fx:id="pomTaskText" layoutX="15.0" prefHeight="42.0" prefWidth="337.0" promptText="What are you working on?" />
+                  <Spinner fx:id="pomSpinner" editable="true" layoutX="130.0" layoutY="65.0" prefHeight="33.0" prefWidth="77.0" />
+                  <Label layoutX="21.0" layoutY="71.0" text="Est Pomodoros" textFill="WHITE" />
+                  <Button layoutX="270.0" layoutY="110.0" mnemonicParsing="false" onAction="#pressAddTaskButton" style="-fx-background-color: white; -fx-cursor: hand;" text="Add Task" />
                </children>
                <HBox.margin>
                   <Insets />
                </HBox.margin></Pane>
             <VBox prefHeight="176.0" prefWidth="680.0">
                <children>
-                  <ListView fx:id="taskList" prefHeight="200.0" prefWidth="200.0">
+                  <ListView fx:id="taskList" prefHeight="200.0" prefWidth="410.0">
                      <VBox.margin>
                         <Insets right="10.0" />
                      </VBox.margin></ListView>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Delete">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteSelectedTask" style="-fx-background-color: white; -fx-cursor: hand;" text="Delete">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Edit Name">
+                        <Button fx:id="editNameButton" mnemonicParsing="false" onAction="#editSelectedTaskName" style="-fx-background-color: white; -fx-cursor: hand;" text="Edit Name">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Edit # Pomodoros">
+                        <Button fx:id="editNumPomButton" mnemonicParsing="false" onAction="#editSelectedTaskNumPomodoros" style="-fx-background-color: white; -fx-cursor: hand;" text="Edit # Pomodoros">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>

@@ -34,13 +34,30 @@ public interface IPomodoroTimer {
     void setCurrentTask(ITask task) throws IllegalArgumentException;
 
     /**
-     * Removes the given task from the list of tasks for this pomodoro timer.
+     * Edits the task at the given index to be the given name.
      *
-     * @param task the task to be deleted/removed.
-     * @throws IllegalArgumentException if the given task is null or if the task is nonexistent or if the list of tasks
-     *                                  is empty.
+     * @param name  the task name to be changed to.
+     * @param index the index of the task to rename from task list
+     * @throws IllegalArgumentException if the index is negative or out of bounds or if the task list is empty.
      */
-    void removeTask(ITask task) throws IllegalArgumentException;
+    void editTaskName(String name, int index) throws IllegalArgumentException;
+
+    /**
+     * Edits the number of pomodoros for the task at the given index.
+     *
+     * @param numPoms  the numbers of pomodoros to be changed to.
+     * @param index the index of the task to rename from task list
+     * @throws IllegalArgumentException if the index is negative or out of bounds or if the poms is non-positive or greater than 100.
+     */
+    void editNumPomodoros(int numPoms, int index) throws IllegalArgumentException;
+
+    /**
+     * Removes the task at the given index from the list of tasks for this pomodoro timer.
+     *
+     * @param index the index of the task to remove from task list
+     * @throws IllegalArgumentException if the index is negative or out of bounds or if the task list is empty.
+     */
+    void removeTask(int index) throws IllegalArgumentException;
 
 
     String getRemainingTime();
@@ -67,12 +84,14 @@ public interface IPomodoroTimer {
 
     /**
      * Returns a deep copy of the list of tasks that the user has entered.
-     * @return  list of tasks that the user has entered.
+     *
+     * @return list of tasks that the user has entered.
      */
     List<ITask> getTasksList();
 
     /**
      * Returns the number of pomodoros that the user has gone through so far.
+     *
      * @return the number of pomodoros that the user has gone through so far.
      */
     int getNumPomodoros();
