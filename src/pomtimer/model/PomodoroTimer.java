@@ -246,66 +246,6 @@ public class PomodoroTimer implements IPomodoroTimer {
 //        this.tasks = updatedTasks;
 //    }
 
-//    @Override
-//    public void startPomodoro() {
-//        this.pomodoro.startTimer();
-//    }
-//
-//    @Override
-//    public void pausePomodoro() {
-//        this.pomodoro.pauseTimer();
-//    }
-//
-//    @Override
-//    public void skipPomodoro() {
-//        this.pomodoro.skipTimer();
-//    }
-//
-//    @Override
-//    public void resetPomodoro() {
-//        this.pomodoro.resetTimer();
-//    }
-//
-//    @Override
-//    public void startShort() {
-//        this.shortBreak.startTimer();
-//    }
-//
-//    @Override
-//    public void pauseShort() {
-//        this.shortBreak.pauseTimer();
-//    }
-//
-//    @Override
-//    public void skipShort() {
-//        this.shortBreak.skipTimer();
-//    }
-//
-//    @Override
-//    public void resetShort() {
-//        this.shortBreak.resetTimer();
-//    }
-//
-//    @Override
-//    public void startLong() {
-//        this.longBreak.startTimer();
-//    }
-//
-//    @Override
-//    public void pauseLong() {
-//        this.longBreak.pauseTimer();
-//    }
-//
-//    @Override
-//    public void skipLong() {
-//        this.longBreak.skipTimer();
-//    }
-//
-//    @Override
-//    public void resetLong() {
-//        this.longBreak.resetTimer();
-//    }
-
     @Override
     public List<ITask> getTasksList() {
         List<ITask> taskList = new ArrayList<>();

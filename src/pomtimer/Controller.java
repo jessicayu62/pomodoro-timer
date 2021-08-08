@@ -8,9 +8,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import pomtimer.model.IPomodoroTimer;
 import pomtimer.model.ITask;
@@ -44,16 +48,13 @@ public class Controller implements Initializable {
         model = new PomodoroTimer();
         Timeline updateTimer = new Timeline(
                 new KeyFrame(Duration.seconds(1),
-                        new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
+                        event -> {
+                            timerLabel.setText(model.getRemainingTime());
+                            if (model.getRemainingTime().equals("00:00")) {
+                                model.changeToNextOperation();
                                 timerLabel.setText(model.getRemainingTime());
-                                if (model.getRemainingTime().equals("00:00")) {
-                                    model.changeToNextOperation();
-                                    timerLabel.setText(model.getRemainingTime());
-                                    pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
-                                    setBackgroundColor();
-                                }
+                                pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
+                                setBackgroundColor();
                             }
                         }));
         updateTimer.setCycleCount(Timeline.INDEFINITE);
@@ -140,7 +141,7 @@ public class Controller implements Initializable {
     public void editSelectedTaskNumPomodoros(ActionEvent event) {
         int lastClickedTaskIndex = taskList.getSelectionModel().getSelectedIndex();
         if (lastClickedTaskIndex >= 0) {
-            Dialog<String> dialog = new Dialog<String>();
+            Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Edit # Pomodoros");
             dialog.setHeaderText("Edit Number of Pomodoros");
             Label pomLabel = new Label("Est Pomodoros");
@@ -169,43 +170,55 @@ public class Controller implements Initializable {
         List<HBox> taskItems = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++) {
             HBox buttonAndNameBox = new HBox(5);
-            Button checkmarkButton = new Button("C");
-            checkmarkButton.setStyle("-fx-cursor: hand");
+            //Creating a graphic (image)
+            Image img = new Image("pomtimer/img/checkmark.png");
+            ImageView checkmarkView = new ImageView(img);
+            checkmarkView.setFitHeight(25);
+            checkmarkView.setFitWidth(25);
+            Button checkmarkButton = new Button("", checkmarkView);
 
             String taskText = model.getTasksList().get(i).getName();
             String originalText = model.getTasksList().get(i).getName();
             if (taskText.length() >= 29) {
                 taskText = getTextWithRevisedSpacing(originalText);
             }
-            Label taskName = new Label(taskText);
+            Text taskName = new Text(taskText);
 
             int finalI = i;
-            EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    model.checkTask(finalI);
-                    if (model.getTasksList().get(finalI).isCompleted()) {
-                        taskName.setStyle("-fx-background-color: blue;");
-                    } else {
-                        taskName.setStyle("-fx-background-color: none;");
-                    }
-                    currentTaskLabel.setText("Working on: " + model.getCurrentTask());
+            EventHandler<ActionEvent> buttonHandler = event -> {
+                model.checkTask(finalI);
+
+                if (model.getTasksList().get(finalI).isCompleted()) {
+                    checkmarkView.setOpacity(0.75);
+                    taskName.setStrikethrough(true);
+                } else {
+                    checkmarkView.setOpacity(0.25);
+                    taskName.setStrikethrough(false);
                 }
+                checkmarkButton.setStyle("-fx-background-color: transparent;");
+                currentTaskLabel.setText("Working on: " + model.getCurrentTask());
             };
             checkmarkButton.setOnAction(buttonHandler);
 
+            checkmarkButton.setStyle("-fx-background-color: transparent;");
             if (model.getTasksList().get(finalI).isCompleted()) {
-                taskName.setStyle("-fx-background-color: blue;");
+                checkmarkView.setOpacity(0.75);
+                taskName.setStrikethrough(true);
+            } else {
+                checkmarkView.setOpacity(0.25);
+                taskName.setStrikethrough(false);
             }
 
             buttonAndNameBox.getChildren().addAll(checkmarkButton, taskName);
             buttonAndNameBox.setPrefWidth(taskText.length() + 200);
+            buttonAndNameBox.setAlignment(Pos.CENTER_LEFT);
 
             Label taskPomNum = new Label(String.valueOf(model.getTasksList().get(i).getNumPomodoros()));
             double spacing = 170 - taskText.length();
             HBox taskBox = new HBox(spacing, buttonAndNameBox, taskPomNum);
             taskBox.setStyle("-fx-cursor: hand");
             taskItems.add(taskBox);
+            taskBox.setAlignment(Pos.CENTER_LEFT);
 
         }
         ObservableList<HBox> taskHBoxItems = FXCollections.observableList(taskItems);
