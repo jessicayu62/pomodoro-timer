@@ -42,19 +42,21 @@ public class PomodoroTimer implements IPomodoroTimer {
     }
 
     @Override
-    public void checkTask(ITask task) {
-        if (task == null || tasks.isEmpty() || !tasks.contains(task)) {
+    public void checkTask(int index) {
+        if (tasks.isEmpty() || index < 0 || index > tasks.size()) {
             throw new IllegalArgumentException("Cannot indicate completion this task");
         }
-        task.check();
+        this.tasks.get(index).check();
     }
 
     @Override
-    public void setCurrentTask(ITask task) {
-        if (task == null || tasks.isEmpty() || !tasks.contains(task)) {
-            throw new IllegalArgumentException("Cannot set this task as the current task");
+    public String getCurrentTask() {
+        for (int i = 0; i < tasks.size(); i++) {
+            if (!tasks.get(i).isCompleted()) {
+                return tasks.get(i).getName();
+            }
         }
-        this.currentTask = task;
+        return "";
     }
 
     @Override
@@ -86,15 +88,15 @@ public class PomodoroTimer implements IPomodoroTimer {
         if (onPomodoro) {
             return convertTime(pomodoro.getRemainingTime());
         } else if (onShortBreak) {
-           return convertTime(shortBreak.getRemainingTime());
+            return convertTime(shortBreak.getRemainingTime());
         } else {
             return convertTime(longBreak.getRemainingTime());
         }
     }
 
     private String convertTime(long remainingTime) {
-        long minutes = (remainingTime / 1000)  / 60;
-        int seconds = (int)((remainingTime / 1000) % 60);
+        long minutes = (remainingTime / 1000) / 60;
+        int seconds = (int) ((remainingTime / 1000) % 60);
         String min = String.valueOf(minutes);
         if (min.length() == 1) {
             min = "0" + min;
@@ -137,7 +139,7 @@ public class PomodoroTimer implements IPomodoroTimer {
             this.longBreak.resetTimer();
         } else if (onPomodoro) {
             this.pomodoro.skipTimer();
-            this.pomodorosPassed ++;
+            this.pomodorosPassed++;
             this.onPomodoro = false;
             if (pomodorosPassed % 4 == 0) {
                 this.onShortBreak = false;
@@ -175,7 +177,7 @@ public class PomodoroTimer implements IPomodoroTimer {
             this.longBreak.resetTimer();
         } else if (onPomodoro) {
             this.onPomodoro = false;
-            this.pomodorosPassed ++;
+            this.pomodorosPassed++;
             if (pomodorosPassed % 4 == 0) {
                 this.onShortBreak = false;
                 this.onLongBreak = true;
@@ -308,7 +310,7 @@ public class PomodoroTimer implements IPomodoroTimer {
     public List<ITask> getTasksList() {
         List<ITask> taskList = new ArrayList<>();
         for (Task value : tasks) {
-            Task task = new Task(value.getName(), value.getNumPomodoros());
+            Task task = new Task(value.getName(), value.getNumPomodoros(), value.isCompleted());
             taskList.add(task);
         }
         return taskList;

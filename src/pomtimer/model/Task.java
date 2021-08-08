@@ -16,6 +16,12 @@ public class Task implements ITask {
         this.completed = false;
     }
 
+    public Task(String name, int numPomodoros, boolean completed) {
+        this.name = name;
+        this.numPomodoros = numPomodoros;
+        this.completed = completed;
+    }
+
     @Override
     public void setName(String name) {
         if (name == null) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -96,7 +97,7 @@
                </children>
             </HBox>
             <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" textFill="WHITE" />
-            <Label text="Working on: " textFill="WHITE" />
+            <Label fx:id="currentTaskLabel" text="Working on: " textFill="WHITE" />
          </children>
       </VBox>
    </center>
@@ -106,9 +107,12 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <TextField fx:id="pomTaskText" layoutX="15.0" prefHeight="42.0" prefWidth="337.0" promptText="What are you working on?" />
-                  <Spinner fx:id="pomSpinner" editable="true" layoutX="130.0" layoutY="65.0" prefHeight="33.0" prefWidth="77.0" />
+                  <Spinner fx:id="pomSpinner" editable="true" layoutX="130.0" layoutY="65.0" prefHeight="33.0" prefWidth="77.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Spinner>
                   <Label layoutX="21.0" layoutY="71.0" text="Est Pomodoros" textFill="WHITE" />
-                  <Button layoutX="270.0" layoutY="110.0" mnemonicParsing="false" onAction="#pressAddTaskButton" style="-fx-background-color: white; -fx-cursor: hand;" text="Add Task" />
+                  <Button fx:id="addTaskButton" layoutX="270.0" layoutY="110.0" mnemonicParsing="false" onAction="#pressAddTaskButton" style="-fx-background-color: white; -fx-cursor: hand;" text="Add Task" />
                </children>
                <HBox.margin>
                   <Insets />

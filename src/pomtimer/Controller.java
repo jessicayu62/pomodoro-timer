@@ -21,6 +21,10 @@ import java.util.*;
 
 public class Controller implements Initializable {
     @FXML
+    public Button addTaskButton;
+    @FXML
+    public Label currentTaskLabel;
+    @FXML
     private BorderPane background;
     @FXML
     public Label pomodoroNumLabel;
@@ -117,7 +121,7 @@ public class Controller implements Initializable {
     public void editSelectedTaskName(ActionEvent event) {
         int lastClickedTaskIndex = taskList.getSelectionModel().getSelectedIndex();
         if (lastClickedTaskIndex >= 0) {
-            TextInputDialog dialog = new TextInputDialog();
+            TextInputDialog dialog = new TextInputDialog(model.getTasksList().get(lastClickedTaskIndex).getName());
             dialog.setTitle("Edit Name");
             dialog.setHeaderText("Edit Task Description");
             dialog.setContentText("Enter task:");
@@ -125,8 +129,10 @@ public class Controller implements Initializable {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
                 String newName = result.get();
-                model.editTaskName(newName, lastClickedTaskIndex);
-                updateTaskList();
+                if (!newName.equals("")) {
+                    model.editTaskName(newName, lastClickedTaskIndex);
+                    updateTaskList();
+                }
             }
         }
     }
@@ -140,8 +146,9 @@ public class Controller implements Initializable {
             Label pomLabel = new Label("Est Pomodoros");
             final Spinner<Integer> dialogPomSpinner = new Spinner<>();
             dialogPomSpinner.setEditable(true);
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, model.getTasksList().get(lastClickedTaskIndex).getNumPomodoros());
             dialogPomSpinner.setValueFactory(valueFactory);
+            dialogPomSpinner.setStyle("-fx-cursor: hand;");
             HBox editPomBox = new HBox(10, pomLabel, dialogPomSpinner);
             ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().setContent(editPomBox);
@@ -163,22 +170,48 @@ public class Controller implements Initializable {
         for (int i = 0; i < tasks.size(); i++) {
             HBox buttonAndNameBox = new HBox(5);
             Button checkmarkButton = new Button("C");
+            checkmarkButton.setStyle("-fx-cursor: hand");
+
             String taskText = model.getTasksList().get(i).getName();
             String originalText = model.getTasksList().get(i).getName();
             if (taskText.length() >= 29) {
                 taskText = getTextWithRevisedSpacing(originalText);
             }
             Label taskName = new Label(taskText);
+
+            int finalI = i;
+            EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    model.checkTask(finalI);
+                    if (model.getTasksList().get(finalI).isCompleted()) {
+                        taskName.setStyle("-fx-background-color: blue;");
+                    } else {
+                        taskName.setStyle("-fx-background-color: none;");
+                    }
+                    currentTaskLabel.setText("Working on: " + model.getCurrentTask());
+                }
+            };
+            checkmarkButton.setOnAction(buttonHandler);
+
+            if (model.getTasksList().get(finalI).isCompleted()) {
+                taskName.setStyle("-fx-background-color: blue;");
+            }
+
             buttonAndNameBox.getChildren().addAll(checkmarkButton, taskName);
             buttonAndNameBox.setPrefWidth(taskText.length() + 200);
 
             Label taskPomNum = new Label(String.valueOf(model.getTasksList().get(i).getNumPomodoros()));
             double spacing = 170 - taskText.length();
             HBox taskBox = new HBox(spacing, buttonAndNameBox, taskPomNum);
+            taskBox.setStyle("-fx-cursor: hand");
             taskItems.add(taskBox);
+
         }
         ObservableList<HBox> taskHBoxItems = FXCollections.observableList(taskItems);
         taskList.setItems(taskHBoxItems);
+
+        currentTaskLabel.setText("Working on: " + model.getCurrentTask());
     }
 
     private String getTextWithRevisedSpacing(String originalText) {

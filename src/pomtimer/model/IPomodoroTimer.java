@@ -18,20 +18,16 @@ public interface IPomodoroTimer {
     /**
      * Checks off the given task to indicate completion of the task.
      *
-     * @param task the task to be checked off as completed.
-     * @throws IllegalArgumentException if the given task is null or if the task is nonexistent or if the list of tasks
-     *                                  * is empty.
+     * @param index the index of the task to mark as complete from task list
+     * @throws IllegalArgumentException if the given index is out of bounds or if the list of tasks is empty.
      */
-    void checkTask(ITask task) throws IllegalArgumentException;
+    void checkTask(int index) throws IllegalArgumentException;
 
     /**
-     * Sets the given task as the current task the user is working on completing.
-     *
-     * @param task the task the user is currently working on.
-     * @throws IllegalArgumentException if the given task is null or if the task is nonexistent or if the list of tasks
-     *                                  is empty.
+     * Returns the task name/description that the user is currently working on (the first task in the list of tasks
+     * that is not yet complete). Returns an empty string if the list of tasks is empty or if all tasks have been completed.
      */
-    void setCurrentTask(ITask task) throws IllegalArgumentException;
+    String getCurrentTask();
 
     /**
      * Edits the task at the given index to be the given name.
@@ -45,8 +41,8 @@ public interface IPomodoroTimer {
     /**
      * Edits the number of pomodoros for the task at the given index.
      *
-     * @param numPoms  the numbers of pomodoros to be changed to.
-     * @param index the index of the task to rename from task list
+     * @param numPoms the numbers of pomodoros to be changed to.
+     * @param index   the index of the task to rename from task list
      * @throws IllegalArgumentException if the index is negative or out of bounds or if the poms is non-positive or greater than 100.
      */
     void editNumPomodoros(int numPoms, int index) throws IllegalArgumentException;
