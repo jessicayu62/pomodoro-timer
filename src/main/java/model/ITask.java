@@ -1,4 +1,4 @@
-package pomtimer.model;
+package main.java.model;
 
 /**
  * This interface represents a type of task that a user aims to work on using the model.Pomodoro Timer.

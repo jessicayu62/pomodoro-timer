@@ -1,4 +1,4 @@
-package pomtimer.model;
+package main.java.model;
 
 
 /**
@@ -6,7 +6,7 @@ package pomtimer.model;
  */
 public class Pomodoro extends AbstractWork {
     public Pomodoro() {
-        super(1500);
-//        super(30);
+//        super(1500);
+        super(5);
     }
 }

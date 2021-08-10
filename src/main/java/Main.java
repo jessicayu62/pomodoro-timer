@@ -1,4 +1,4 @@
-package pomtimer;
+package main.java;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("pomtimer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../resources/pomtimer.fxml"));
         primaryStage.setTitle("Pomodoro Timer");
         primaryStage.setScene(new Scene(root, 800, 600));
 //        primaryStage.setMaxHeight(800);

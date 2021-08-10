@@ -1,4 +1,4 @@
-package pomtimer.model;
+package main.java.model;
 
 /**
  * An interface containing operations that can be applied to timers within the pomodoro, short break, and long break

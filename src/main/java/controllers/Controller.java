@@ -1,4 +1,4 @@
-package pomtimer;
+package main.java.controllers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,13 +14,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import pomtimer.model.IPomodoroTimer;
-import pomtimer.model.ITask;
-import pomtimer.model.PomodoroTimer;
+import main.java.model.IPomodoroTimer;
+import main.java.model.ITask;
+import main.java.model.PomodoroTimer;
 
+
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Controller implements Initializable {
@@ -43,14 +49,18 @@ public class Controller implements Initializable {
 
 
     private IPomodoroTimer model;
+    boolean isRunning;
 
     public Controller() {
         model = new PomodoroTimer();
+        isRunning = false;
         Timeline updateTimer = new Timeline(
                 new KeyFrame(Duration.seconds(1),
                         event -> {
                             timerLabel.setText(model.getRemainingTime());
                             if (model.getRemainingTime().equals("00:00")) {
+                                playTimerSound();
+                                this.isRunning = false;
                                 model.changeToNextOperation();
                                 timerLabel.setText(model.getRemainingTime());
                                 pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
@@ -62,6 +72,13 @@ public class Controller implements Initializable {
     }
 
     public void pressPomodoroButton(ActionEvent event) {
+        if (isRunning) {
+            boolean result = resultFromConfirmDialog("Confirm Switch", "Click OK to continue switching.");
+            if (!result) {
+                return;
+            }
+        }
+        this.isRunning = false;
         model.resetTimer();
         model.goToPomodoro();
         timerLabel.setText(model.getRemainingTime());
@@ -69,6 +86,13 @@ public class Controller implements Initializable {
     }
 
     public void pressShortBreakButton(ActionEvent event) {
+        if (isRunning) {
+            boolean result = resultFromConfirmDialog("Confirm Switch", "Click OK to continue switching.");
+            if (!result) {
+                return;
+            }
+        }
+        this.isRunning = false;
         model.resetTimer();
         model.goToShortBreak();
         timerLabel.setText(model.getRemainingTime());
@@ -76,6 +100,13 @@ public class Controller implements Initializable {
     }
 
     public void pressLongBreakButton(ActionEvent event) {
+        if (isRunning) {
+            boolean result = resultFromConfirmDialog("Confirm Switch", "Click OK to continue switching.");
+            if (!result) {
+                return;
+            }
+        }
+        this.isRunning = false;
         model.resetTimer();
         model.goToLongBreak();
         timerLabel.setText(model.getRemainingTime());
@@ -83,22 +114,61 @@ public class Controller implements Initializable {
     }
 
     public void pressStartButton(ActionEvent event) {
+        this.isRunning = true;
         model.startTimer();
     }
 
     public void pressStopButton(ActionEvent event) {
+        this.isRunning = false;
         model.pauseTimer();
     }
 
     public void pressResetButton(ActionEvent event) {
+        this.isRunning = false;
         model.resetTimer();
     }
 
     public void pressSkipButton(ActionEvent event) {
+        if (this.isRunning) {
+            boolean result = resultFromConfirmDialog("Confirm Skipping Round",
+                    "Click OK to continue finishing the round early.");
+            if (!result) {
+                return;
+            }
+        }
+        this.isRunning = false;
         model.skipTimer();
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
+//        prepareNextRoundAlert();
+    }
+
+    private boolean resultFromConfirmDialog(String titleText, String contextText) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titleText);
+        alert.setHeaderText("The timer is still running!");
+        alert.setContentText(contextText);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
+
+    private void prepareNextRoundAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Switching to next round...");
+        alert.setHeaderText(null);
+        String roundType;
+        if (model.isOnPomodoro()) {
+            roundType = "work";
+        } else if (model.isOnShortBreak()) {
+            roundType = "take a short break";
+        } else {
+            roundType = "take a long break";
+        }
+        alert.setContentText("Time to " + roundType + "!");
+
+        alert.showAndWait();
     }
 
     public void pressAddTaskButton(ActionEvent event) {
@@ -128,7 +198,7 @@ public class Controller implements Initializable {
             dialog.setContentText("Enter task:");
 
             Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
+            if (result.isPresent()) {
                 String newName = result.get();
                 if (!newName.equals("")) {
                     model.editTaskName(newName, lastClickedTaskIndex);
@@ -171,7 +241,7 @@ public class Controller implements Initializable {
         for (int i = 0; i < tasks.size(); i++) {
             HBox buttonAndNameBox = new HBox(5);
             //Creating a graphic (image)
-            Image img = new Image("pomtimer/img/checkmark.png");
+            Image img = new Image("main/resources/img/checkmark.png");
             ImageView checkmarkView = new ImageView(img);
             checkmarkView.setFitHeight(25);
             checkmarkView.setFitWidth(25);
@@ -247,6 +317,13 @@ public class Controller implements Initializable {
             }
         }
         return taskText;
+    }
+
+    private void playTimerSound() {
+        String path = getClass().getResource("res/timerSound.mp3").toString();
+        Media sound = new Media(path);
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
 
     private void setBackgroundColor() {

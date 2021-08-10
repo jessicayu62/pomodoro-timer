@@ -1,4 +1,4 @@
-package pomtimer.model;
+package main.java.model;
 
 /**
  * A class representing a task that has an inputted name/description and the number of pomodoros estimated to finish

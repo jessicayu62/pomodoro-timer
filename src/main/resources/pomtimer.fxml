@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="background" maxHeight="900.0" maxWidth="1200.0" minHeight="500.0" minWidth="550.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F08A8A; -fx-background-color: #93D7A7; -fx-background-color: #93CED7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pomtimer.Controller">
+<BorderPane fx:id="background" maxHeight="900.0" maxWidth="1200.0" minHeight="500.0" minWidth="550.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F08A8A; -fx-background-color: #93D7A7; -fx-background-color: #93CED7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.Controller">
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -53,7 +53,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/pomtimer/img/start.png" />
+                              <Image url="@/main/resources/img/start.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -65,7 +65,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/pomtimer/img/pause.png" />
+                              <Image url="@/main/resources/img/pause.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -77,7 +77,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/pomtimer/img/reset.png" />
+                              <Image url="@/main/resources/img/reset.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -89,7 +89,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/pomtimer/img/skip.png" />
+                              <Image url="@/main/resources/img/skip.png" />
                            </image>
                         </ImageView>
                      </graphic>
