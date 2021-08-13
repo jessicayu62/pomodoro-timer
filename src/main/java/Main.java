@@ -13,8 +13,6 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("../resources/pomtimer.fxml"));
         primaryStage.setTitle("Pomodoro Timer");
         primaryStage.setScene(new Scene(root, 800, 600));
-//        primaryStage.setMaxHeight(800);
-//        primaryStage.setMaxWidth(1200);
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(750);
         primaryStage.show();

@@ -6,6 +6,5 @@ package main.java.model;
 public class ShortBreak extends AbstractWork {
     public ShortBreak() {
         super(300);
-//        super(10);
     }
 }

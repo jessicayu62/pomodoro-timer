@@ -14,7 +14,6 @@ public abstract class AbstractWork implements IWork {
     protected long interval;  // One second interval between tasks
     protected long elapsedTime;  // The number of milliseconds that have passed as the time runs
     protected long duration;  // How long the timer is in seconds
-//    protected static int pomodoroCounter = 0;
 
     public AbstractWork(int duration) {
         this.timer = new Timer();
@@ -35,7 +34,6 @@ public abstract class AbstractWork implements IWork {
                     elapsedTime += AbstractWork.this.interval;
                     if (elapsedTime >= duration) {
                         timer.cancel();
-//                    pomodoroCounter++;
                     }
                 }
             }, 0, 1000);
@@ -44,27 +42,18 @@ public abstract class AbstractWork implements IWork {
 
     @Override
     public void pauseTimer() {
-//        if (!this.isRunning) {
-//            throw new IllegalArgumentException("Impossible, cannot pause the timer when it has not been started.");
-//        }
         this.isRunning = false;
         timer.cancel();
     }
 
     @Override
     public void skipTimer() {
-//        if (!this.isRunning) {
-//            throw new IllegalArgumentException("Impossible, cannot skip the timer when it has not been started.");
-//        }
         this.isRunning = false;
         timer.cancel();
     }
 
     @Override
     public void resetTimer() {
-//        if (!this.isRunning) {
-//            throw new IllegalArgumentException("Impossible, cannot restart the timer when it has not been started.");
-//        }
         this.isRunning = false;
         timer.cancel();
         this.elapsedTime = 0;
@@ -74,13 +63,4 @@ public abstract class AbstractWork implements IWork {
     public long getRemainingTime() {
         return this.duration - this.elapsedTime;
     }
-
-    @Override
-    public boolean isRunning() {
-        return this.isRunning;
-    }
-
-//    public static int getPomodoroCounter() {
-//        return pomodoroCounter;
-//    }
 }

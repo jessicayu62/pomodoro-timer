@@ -55,27 +55,52 @@ public interface IPomodoroTimer {
      */
     void removeTask(int index) throws IllegalArgumentException;
 
-
+    /**
+     * Returns the remaining time of the timer in the form of a string ("HH:MM").
+     *
+     * @return the remaining time of the timer
+     */
     String getRemainingTime();
-//    /**
-//     * Removes the completed tasks from the list of tasks.
-//     */
-//    void clearFinishedTasks();
 
+    /**
+     * Starts the timer for the round.
+     */
     void startTimer();
 
+    /**
+     * Pauses the timer for the round.
+     */
     void pauseTimer();
 
+    /**
+     * Skips the timer for the round.
+     */
     void skipTimer();
 
+    /**
+     * Resets the timer for the round.
+     */
     void resetTimer();
 
+    /**
+     * Changes the timer to the next round. A pomodoro round goes to a break (long break every fourth pomodoro, otherwise
+     * a short break is next). After short/long break user goes to the pomodoro round.
+     */
     void changeToNextOperation();
 
+    /**
+     * Prepares the timer for the pomodoro round.
+     */
     void goToPomodoro();
 
+    /**
+     * Prepares the timer for a short break.
+     */
     void goToShortBreak();
 
+    /**
+     * Prepares the timer for a long break.
+     */
     void goToLongBreak();
 
     /**
@@ -92,10 +117,18 @@ public interface IPomodoroTimer {
      */
     int getNumPomodoros();
 
+    /**
+     * Returns whether the current round is a pomodoro round.
+     *
+     * @return whether the current round is a pomodoro round.
+     */
     boolean isOnPomodoro();
 
+    /**
+     * Returns whether the current round is a short break round.
+     *
+     * @return whether the current round is a short break round.
+     */
     boolean isOnShortBreak();
-
-    boolean isOnLongBreak();
 
 }

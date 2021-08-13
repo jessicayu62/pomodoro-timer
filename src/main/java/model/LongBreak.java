@@ -6,6 +6,5 @@ package main.java.model;
 public class LongBreak extends AbstractWork {
     public LongBreak() {
         super(900);
-//        super(20);
     }
 }

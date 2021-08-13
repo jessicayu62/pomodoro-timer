@@ -14,21 +14,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.model.IPomodoroTimer;
 import main.java.model.ITask;
 import main.java.model.PomodoroTimer;
-
-
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * The controller for the PomodoroTimer class in which the user's interactions are communicated from this controller
+ * class to the model. Prepares the view based on user interaction.
+ */
 public class Controller implements Initializable {
     @FXML
     public Button addTaskButton;
@@ -46,7 +48,6 @@ public class Controller implements Initializable {
     private TextField pomTaskText;
     @FXML
     private ListView<HBox> taskList = new ListView<>();
-
 
     private IPomodoroTimer model;
     boolean isRunning;
@@ -141,34 +142,17 @@ public class Controller implements Initializable {
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
-//        prepareNextRoundAlert();
     }
 
     private boolean resultFromConfirmDialog(String titleText, String contextText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titleText);
         alert.setHeaderText("The timer is still running!");
+        alert.setGraphic(new ImageView(this.getClass().getResource("res/timer.png").toString()));
         alert.setContentText(contextText);
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
-    }
-
-    private void prepareNextRoundAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Switching to next round...");
-        alert.setHeaderText(null);
-        String roundType;
-        if (model.isOnPomodoro()) {
-            roundType = "work";
-        } else if (model.isOnShortBreak()) {
-            roundType = "take a short break";
-        } else {
-            roundType = "take a long break";
-        }
-        alert.setContentText("Time to " + roundType + "!");
-
-        alert.showAndWait();
     }
 
     public void pressAddTaskButton(ActionEvent event) {
@@ -195,6 +179,7 @@ public class Controller implements Initializable {
             TextInputDialog dialog = new TextInputDialog(model.getTasksList().get(lastClickedTaskIndex).getName());
             dialog.setTitle("Edit Name");
             dialog.setHeaderText("Edit Task Description");
+            dialog.setGraphic(new ImageView(this.getClass().getResource("res/edit.png").toString()));
             dialog.setContentText("Enter task:");
 
             Optional<String> result = dialog.showAndWait();
@@ -214,6 +199,7 @@ public class Controller implements Initializable {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Edit # Pomodoros");
             dialog.setHeaderText("Edit Number of Pomodoros");
+            dialog.setGraphic(new ImageView(this.getClass().getResource("res/edit.png").toString()));
             Label pomLabel = new Label("Est Pomodoros");
             final Spinner<Integer> dialogPomSpinner = new Spinner<>();
             dialogPomSpinner.setEditable(true);
@@ -291,8 +277,14 @@ public class Controller implements Initializable {
             taskBox.setAlignment(Pos.CENTER_LEFT);
 
         }
-        ObservableList<HBox> taskHBoxItems = FXCollections.observableList(taskItems);
-        taskList.setItems(taskHBoxItems);
+        if (model.getTasksList().isEmpty()) {
+            Text addTaskText = new Text("");
+            ObservableList<HBox> items = FXCollections.observableArrayList(new HBox(addTaskText));
+            taskList.setItems(items);
+        } else {
+            ObservableList<HBox> taskHBoxItems = FXCollections.observableList(taskItems);
+            taskList.setItems(taskHBoxItems);
+        }
 
         currentTaskLabel.setText("Working on: " + model.getCurrentTask());
     }
@@ -343,6 +335,10 @@ public class Controller implements Initializable {
 
         timerLabel.setText(model.getRemainingTime());
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
+
+        Text addTaskText = new Text("");
+        ObservableList<HBox> items = FXCollections.observableArrayList(new HBox(addTaskText));
+        taskList.setItems(items);
 
         background.setStyle("-fx-background-color: #F08A8A;");
     }

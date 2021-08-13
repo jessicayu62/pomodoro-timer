@@ -14,20 +14,23 @@
             <Button fx:id="pomodoroButton" mnemonicParsing="false" onAction="#pressPomodoroButton" style="-fx-background-color: #E6C3c3; -fx-cursor: hand;" text="Pomodoro" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
             <Button fx:id="shortBreakButton" mnemonicParsing="false" onAction="#pressShortBreakButton" style="-fx-background-color: #BAD7C3; -fx-cursor: hand;" text="Short Break" textFill="WHITE">
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
                </HBox.margin>
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="System Bold" size="15.0" />
                </font></Button>
             <Button fx:id="longBreakButton" mnemonicParsing="false" onAction="#pressLongBreakButton" style="-fx-background-color: #B9D6DB; -fx-cursor: hand;" text="Long Break" textFill="WHITE">
                <HBox.margin>
                   <Insets left="30.0" />
                </HBox.margin>
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="System Bold" size="15.0" />
                </font></Button>
          </children>
          <opaqueInsets>
@@ -39,10 +42,10 @@
          <children>
             <Label fx:id="timerLabel" text="Timer" textFill="WHITE">
                <VBox.margin>
-                  <Insets bottom="20.0" top="20.0" />
+                  <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
                <font>
-                  <Font size="74.0" />
+                  <Font name="System Bold" size="90.0" />
                </font></Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -95,9 +98,18 @@
                      </graphic>
                   </Button>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </HBox>
-            <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" textFill="WHITE" />
-            <Label fx:id="currentTaskLabel" text="Working on: " textFill="WHITE" />
+            <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <Label fx:id="currentTaskLabel" text="Working on: " textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
          </children>
       </VBox>
    </center>
@@ -107,11 +119,14 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <TextField fx:id="pomTaskText" layoutX="15.0" prefHeight="42.0" prefWidth="337.0" promptText="What are you working on?" />
-                  <Spinner fx:id="pomSpinner" editable="true" layoutX="130.0" layoutY="65.0" prefHeight="33.0" prefWidth="77.0">
+                  <Spinner fx:id="pomSpinner" editable="true" layoutX="140.0" layoutY="65.0" prefHeight="33.0" prefWidth="77.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Spinner>
-                  <Label layoutX="21.0" layoutY="71.0" text="Est Pomodoros" textFill="WHITE" />
+                  <Label layoutX="21.0" layoutY="71.0" text="Est Pomodoros" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                   <Button fx:id="addTaskButton" layoutX="270.0" layoutY="110.0" mnemonicParsing="false" onAction="#pressAddTaskButton" style="-fx-background-color: white; -fx-cursor: hand;" text="Add Task" />
                </children>
                <HBox.margin>

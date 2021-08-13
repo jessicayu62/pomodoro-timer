@@ -33,11 +33,4 @@ public interface IWork {
      * @return the remaining time left on the timer.
      */
     long getRemainingTime();
-
-    /**
-     * Determines whether the timer is running (the user has started the timer).
-     * @return whether the timer is running
-     */
-    boolean isRunning();
-
 }
