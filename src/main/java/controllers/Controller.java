@@ -53,7 +53,7 @@ public class Controller implements Initializable {
     @FXML
     private ListView<HBox> taskList = new ListView<>();
 
-    private IPomodoroTimer model;
+    private final IPomodoroTimer model;
     boolean isRunning;
 
     public Controller() {
@@ -160,7 +160,7 @@ public class Controller implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titleText);
         alert.setHeaderText("The timer is still running!");
-        alert.setGraphic(new ImageView(this.getClass().getResource("res/timer.png").toString()));
+        alert.setGraphic(new ImageView(Objects.requireNonNull(this.getClass().getResource("res/timer.png")).toString()));
         alert.setContentText(contextText);
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
@@ -192,7 +192,7 @@ public class Controller implements Initializable {
             TextInputDialog dialog = new TextInputDialog(model.getTasksList().get(lastClickedTaskIndex).getName());
             dialog.setTitle("Edit Name");
             dialog.setHeaderText("Edit Task Description");
-            dialog.setGraphic(new ImageView(this.getClass().getResource("res/edit.png").toString()));
+            dialog.setGraphic(new ImageView(Objects.requireNonNull(this.getClass().getResource("res/edit.png")).toString()));
             dialog.setContentText("Enter task:");
 
             Optional<String> result = dialog.showAndWait();
@@ -213,7 +213,7 @@ public class Controller implements Initializable {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Edit # Pomodoros");
             dialog.setHeaderText("Edit Number of Pomodoros");
-            dialog.setGraphic(new ImageView(this.getClass().getResource("res/edit.png").toString()));
+            dialog.setGraphic(new ImageView(Objects.requireNonNull(this.getClass().getResource("res/edit.png")).toString()));
             Label pomLabel = new Label("Est Pomodoros");
             final Spinner<Integer> dialogPomSpinner = new Spinner<>();
             dialogPomSpinner.setEditable(true);
@@ -315,28 +315,28 @@ public class Controller implements Initializable {
 
     private String getTextWithRevisedSpacing(String originalText) {
         int j = 0;
-        String taskText = "";
+        StringBuilder taskText = new StringBuilder();
         while (originalText.length() > taskText.length()) {
             if (originalText.length() - taskText.length() < 29) {
-                taskText += originalText.substring(j);
+                taskText.append(originalText.substring(j));
             } else {
                 String currText = originalText.substring(j, j + 29);
                 int lastInd = currText.lastIndexOf(" ");
                 if (lastInd == -1) {
                     String row = originalText.substring(j, j + 29);
-                    taskText += row + "\n";
+                    taskText.append(row).append("\n");
                     j += 29;
                 } else {
-                    taskText += originalText.substring(j, j + lastInd + 1) + "\n";
+                    taskText.append(originalText, j, j + lastInd + 1).append("\n");
                     j = j + lastInd + 1;
                 }
             }
         }
-        return taskText;
+        return taskText.toString();
     }
 
     private void playTimerSound() {
-        String path = getClass().getResource("res/timerSound.mp3").toString();
+        String path = Objects.requireNonNull(getClass().getResource("res/timerSound.mp3")).toString();
         Media sound = new Media(path);
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();

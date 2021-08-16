@@ -11,8 +11,7 @@ import java.util.List;
  * are followed by a short break, but is followed by a long break every four pomodoros.
  */
 public class PomodoroTimer implements IPomodoroTimer {
-    private List<Task> tasks;
-    private ITask currentTask;
+    private final List<Task> tasks;
     private int pomodorosPassed;
     private final IWork pomodoro;
     private final IWork shortBreak;
@@ -23,7 +22,6 @@ public class PomodoroTimer implements IPomodoroTimer {
 
     public PomodoroTimer() {
         this.tasks = new ArrayList<>();
-        this.currentTask = null;
         this.pomodorosPassed = 0;
         this.pomodoro = new Pomodoro();
         this.shortBreak = new ShortBreak();
@@ -51,9 +49,9 @@ public class PomodoroTimer implements IPomodoroTimer {
 
     @Override
     public String getCurrentTask() {
-        for (int i = 0; i < tasks.size(); i++) {
-            if (!tasks.get(i).isCompleted()) {
-                return tasks.get(i).getName();
+        for (Task task : tasks) {
+            if (!task.isCompleted()) {
+                return task.getName();
             }
         }
         return "";

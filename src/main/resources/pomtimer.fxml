@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="background" maxHeight="900.0" maxWidth="1200.0" minHeight="500.0" minWidth="550.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F08A8A; -fx-background-color: #93D7A7; -fx-background-color: #93CED7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.Controller">
+<BorderPane fx:id="background" maxHeight="900.0" maxWidth="1200.0" minHeight="500.0" minWidth="550.0" prefHeight="630.0" prefWidth="800.0" style="-fx-background-color: #F08A8A; -fx-background-color: #93D7A7; -fx-background-color: #93CED7;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.Controller">
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -51,7 +51,7 @@
          <children>
             <Label fx:id="timerLabel" text="Timer" textFill="WHITE">
                <VBox.margin>
-                  <Insets bottom="15.0" top="15.0" />
+                  <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
                <font>
                   <Font name="Rockwell" size="96.0" />
@@ -113,16 +113,19 @@
             </HBox>
             <Label fx:id="pomodoroNumLabel" text="Pomodoro: #" textFill="WHITE">
                <font>
-                  <Font name="Verdana" size="15.0" />
+                  <Font name="Verdana" size="14.0" />
                </font></Label>
             <Label fx:id="currentTaskLabel" text="Working on: " textFill="WHITE">
                <font>
-                  <Font name="Verdana" size="15.0" />
+                  <Font name="Verdana" size="14.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets />
                </VBox.margin></Label>
          </children>
+         <BorderPane.margin>
+            <Insets top="-15.0" />
+         </BorderPane.margin>
       </VBox>
    </center>
    <bottom>
@@ -130,16 +133,21 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="pomTaskText" layoutX="15.0" prefHeight="42.0" prefWidth="337.0" promptText="What are you working on?" />
-                  <Spinner fx:id="pomSpinner" editable="true" layoutX="142.0" layoutY="65.0" prefHeight="33.0" prefWidth="77.0">
+                  <Label layoutX="19.0" layoutY="1.0" text="Add a Task:" textFill="WHITE">
+                     <font>
+                        <Font name="Verdana Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="pomTaskText" layoutX="15.0" layoutY="25.0" prefHeight="42.0" prefWidth="337.0" promptText="What are you working on?" />
+                  <Spinner fx:id="pomSpinner" editable="true" layoutX="142.0" layoutY="86.0" prefHeight="33.0" prefWidth="77.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Spinner>
-                  <Label layoutX="21.0" layoutY="71.0" text="Est Pomodoros" textFill="WHITE">
+                  <Label layoutX="21.0" layoutY="91.0" text="Est Pomodoros" textFill="WHITE">
                      <font>
-                        <Font name="Verdana" size="15.0" />
+                        <Font name="Verdana" size="14.0" />
                      </font></Label>
-                  <Button fx:id="addTaskButton" layoutX="270.0" layoutY="110.0" mnemonicParsing="false" onAction="#pressAddTaskButton" style="-fx-background-color: white; -fx-cursor: hand;" text="Add Task">
+                  <Button fx:id="addTaskButton" layoutX="270.0" layoutY="117.0" mnemonicParsing="false" onAction="#pressAddTaskButton" style="-fx-background-color: white; -fx-cursor: hand;" text="Add Task">
                      <font>
                         <Font name="Verdana" size="13.0" />
                      </font></Button>
@@ -150,9 +158,16 @@
                </HBox.margin></Pane>
             <VBox prefHeight="176.0" prefWidth="680.0">
                <children>
-                  <ListView fx:id="taskList" prefHeight="200.0" prefWidth="410.0">
+                  <Label prefHeight="29.0" prefWidth="55.0" text="Tasks:" textFill="WHITE">
+                     <font>
+                        <Font name="Verdana Bold" size="15.0" />
+                     </font>
                      <VBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Label>
+                  <ListView fx:id="taskList" prefHeight="190.0" prefWidth="410.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
                      </VBox.margin></ListView>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -181,12 +196,15 @@
                            </font>
                         </Button>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
          </children>
          <BorderPane.margin>
-            <Insets />
+            <Insets top="-20.0" />
          </BorderPane.margin>
       </HBox>
    </bottom>
