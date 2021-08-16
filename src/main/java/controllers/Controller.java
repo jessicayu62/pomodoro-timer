@@ -150,7 +150,6 @@ public class Controller implements Initializable {
         alert.setHeaderText("The timer is still running!");
         alert.setGraphic(new ImageView(this.getClass().getResource("res/timer.png").toString()));
         alert.setContentText(contextText);
-
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
     }
@@ -239,6 +238,7 @@ public class Controller implements Initializable {
                 taskText = getTextWithRevisedSpacing(originalText);
             }
             Text taskName = new Text(taskText);
+            taskName.setFont(Font.font ("Verdana", 13));
 
             int finalI = i;
             EventHandler<ActionEvent> buttonHandler = event -> {
@@ -269,7 +269,8 @@ public class Controller implements Initializable {
             buttonAndNameBox.setPrefWidth(taskText.length() + 200);
             buttonAndNameBox.setAlignment(Pos.CENTER_LEFT);
 
-            Label taskPomNum = new Label(String.valueOf(model.getTasksList().get(i).getNumPomodoros()));
+            Text taskPomNum = new Text(String.valueOf(model.getTasksList().get(i).getNumPomodoros()));
+            taskPomNum.setFont(Font.font ("Verdana", 13));
             double spacing = 170 - taskText.length();
             HBox taskBox = new HBox(spacing, buttonAndNameBox, taskPomNum);
             taskBox.setStyle("-fx-cursor: hand");
