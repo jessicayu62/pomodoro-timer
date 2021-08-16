@@ -17,8 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.java.model.IPomodoroTimer;
@@ -36,6 +34,12 @@ public class Controller implements Initializable {
     public Button addTaskButton;
     @FXML
     public Label currentTaskLabel;
+    @FXML
+    public Button deleteButton;
+    @FXML
+    public Button editNameButton;
+    @FXML
+    public Button editNumPomButton;
     @FXML
     private BorderPane background;
     @FXML
@@ -84,6 +88,9 @@ public class Controller implements Initializable {
         model.goToPomodoro();
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void pressShortBreakButton(ActionEvent event) {
@@ -98,6 +105,9 @@ public class Controller implements Initializable {
         model.goToShortBreak();
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void pressLongBreakButton(ActionEvent event) {
@@ -112,21 +122,33 @@ public class Controller implements Initializable {
         model.goToLongBreak();
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void pressStartButton(ActionEvent event) {
         this.isRunning = true;
         model.startTimer();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void pressStopButton(ActionEvent event) {
         this.isRunning = false;
         model.pauseTimer();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void pressResetButton(ActionEvent event) {
         this.isRunning = false;
         model.resetTimer();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void pressSkipButton(ActionEvent event) {
@@ -142,9 +164,15 @@ public class Controller implements Initializable {
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     private boolean resultFromConfirmDialog(String titleText, String contextText) {
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titleText);
         alert.setHeaderText("The timer is still running!");
@@ -162,6 +190,9 @@ public class Controller implements Initializable {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
             pomSpinner.setValueFactory(valueFactory);
         }
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void deleteSelectedTask(ActionEvent event) {
@@ -170,6 +201,9 @@ public class Controller implements Initializable {
             model.removeTask(lastClickedTaskIndex);
             updateTaskList();
         }
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void editSelectedTaskName(ActionEvent event) {
@@ -190,6 +224,9 @@ public class Controller implements Initializable {
                 }
             }
         }
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     public void editSelectedTaskNumPomodoros(ActionEvent event) {
@@ -218,6 +255,9 @@ public class Controller implements Initializable {
             });
             dialog.showAndWait();
         }
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
     private void updateTaskList() {
@@ -274,6 +314,13 @@ public class Controller implements Initializable {
             double spacing = 170 - taskText.length();
             HBox taskBox = new HBox(spacing, buttonAndNameBox, taskPomNum);
             taskBox.setStyle("-fx-cursor: hand");
+            taskBox.setOnMouseClicked( ( e ) ->
+            {
+                int lastClickedIndex = taskList.getSelectionModel().getSelectedIndex();
+                deleteButton.setDisable(lastClickedIndex < 0);
+                editNameButton.setDisable(lastClickedIndex < 0);
+                editNumPomButton.setDisable(lastClickedIndex < 0);
+            } );
             taskItems.add(taskBox);
             taskBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -337,11 +384,23 @@ public class Controller implements Initializable {
         timerLabel.setText(model.getRemainingTime());
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
 
+        pomTaskText.textProperty().addListener( (e)-> {
+            deleteButton.setDisable(true);
+            editNameButton.setDisable(true);
+            editNumPomButton.setDisable(true);
+            addTaskButton.setDisable(pomTaskText.getText().trim().isEmpty());
+        });
+
         Text addTaskText = new Text("");
         ObservableList<HBox> items = FXCollections.observableArrayList(new HBox(addTaskText));
         taskList.setItems(items);
 
         background.setStyle("-fx-background-color: #F08A8A;");
+
+        addTaskButton.setDisable(true);
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
     }
 
 }
