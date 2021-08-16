@@ -143,6 +143,7 @@
                      <font>
                         <Font name="Verdana" size="13.0" />
                      </font></Button>
+                  <Button layoutY="200.0" mnemonicParsing="false" style="-fx-background-color: transparent;" />
                </children>
                <HBox.margin>
                   <Insets />

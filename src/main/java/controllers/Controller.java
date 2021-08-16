@@ -88,9 +88,7 @@ public class Controller implements Initializable {
         model.goToPomodoro();
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void pressShortBreakButton(ActionEvent event) {
@@ -105,9 +103,7 @@ public class Controller implements Initializable {
         model.goToShortBreak();
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void pressLongBreakButton(ActionEvent event) {
@@ -122,33 +118,25 @@ public class Controller implements Initializable {
         model.goToLongBreak();
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void pressStartButton(ActionEvent event) {
         this.isRunning = true;
         model.startTimer();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void pressStopButton(ActionEvent event) {
         this.isRunning = false;
         model.pauseTimer();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void pressResetButton(ActionEvent event) {
         this.isRunning = false;
         model.resetTimer();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void pressSkipButton(ActionEvent event) {
@@ -164,15 +152,11 @@ public class Controller implements Initializable {
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
         timerLabel.setText(model.getRemainingTime());
         setBackgroundColor();
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     private boolean resultFromConfirmDialog(String titleText, String contextText) {
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titleText);
         alert.setHeaderText("The timer is still running!");
@@ -190,9 +174,7 @@ public class Controller implements Initializable {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
             pomSpinner.setValueFactory(valueFactory);
         }
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void deleteSelectedTask(ActionEvent event) {
@@ -201,9 +183,7 @@ public class Controller implements Initializable {
             model.removeTask(lastClickedTaskIndex);
             updateTaskList();
         }
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void editSelectedTaskName(ActionEvent event) {
@@ -224,9 +204,7 @@ public class Controller implements Initializable {
                 }
             }
         }
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     public void editSelectedTaskNumPomodoros(ActionEvent event) {
@@ -255,9 +233,7 @@ public class Controller implements Initializable {
             });
             dialog.showAndWait();
         }
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
+        resetButtons();
     }
 
     private void updateTaskList() {
@@ -376,6 +352,12 @@ public class Controller implements Initializable {
         }
     }
 
+    private void resetButtons() {
+        deleteButton.setDisable(true);
+        editNameButton.setDisable(true);
+        editNumPomButton.setDisable(true);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
@@ -397,10 +379,7 @@ public class Controller implements Initializable {
 
         background.setStyle("-fx-background-color: #F08A8A;");
 
+        resetButtons();
         addTaskButton.setDisable(true);
-        deleteButton.setDisable(true);
-        editNameButton.setDisable(true);
-        editNumPomButton.setDisable(true);
     }
-
 }
