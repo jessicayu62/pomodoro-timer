@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import main.java.model.IPomodoroTimer;
 import main.java.model.ITask;
 import main.java.model.PomodoroTimer;
+
 import java.net.URL;
 import java.util.*;
 
@@ -160,7 +161,7 @@ public class Controller implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titleText);
         alert.setHeaderText("The timer is still running!");
-        alert.setGraphic(new ImageView(Objects.requireNonNull(this.getClass().getResource("res/timer.png")).toString()));
+        alert.setGraphic(new ImageView(Objects.requireNonNull(getClass().getClassLoader().getResource("main/resources/img/timer.png")).toString()));
         alert.setContentText(contextText);
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
@@ -192,7 +193,7 @@ public class Controller implements Initializable {
             TextInputDialog dialog = new TextInputDialog(model.getTasksList().get(lastClickedTaskIndex).getName());
             dialog.setTitle("Edit Name");
             dialog.setHeaderText("Edit Task Description");
-            dialog.setGraphic(new ImageView(Objects.requireNonNull(this.getClass().getResource("res/edit.png")).toString()));
+            dialog.setGraphic(new ImageView(Objects.requireNonNull(getClass().getClassLoader().getResource("main/resources/img/edit.png")).toString()));
             dialog.setContentText("Enter task:");
 
             Optional<String> result = dialog.showAndWait();
@@ -213,7 +214,7 @@ public class Controller implements Initializable {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Edit # Pomodoros");
             dialog.setHeaderText("Edit Number of Pomodoros");
-            dialog.setGraphic(new ImageView(Objects.requireNonNull(this.getClass().getResource("res/edit.png")).toString()));
+            dialog.setGraphic(new ImageView(Objects.requireNonNull(getClass().getClassLoader().getResource("main/resources/img/edit.png")).toString()));
             Label pomLabel = new Label("Est Pomodoros");
             final Spinner<Integer> dialogPomSpinner = new Spinner<>();
             dialogPomSpinner.setEditable(true);
@@ -254,7 +255,7 @@ public class Controller implements Initializable {
                 taskText = getTextWithRevisedSpacing(originalText);
             }
             Text taskName = new Text(taskText);
-            taskName.setFont(Font.font ("Verdana", 13));
+            taskName.setFont(Font.font("Verdana", 13));
 
             int finalI = i;
             EventHandler<ActionEvent> buttonHandler = event -> {
@@ -286,17 +287,17 @@ public class Controller implements Initializable {
             buttonAndNameBox.setAlignment(Pos.CENTER_LEFT);
 
             Text taskPomNum = new Text(String.valueOf(model.getTasksList().get(i).getNumPomodoros()));
-            taskPomNum.setFont(Font.font ("Verdana", 13));
+            taskPomNum.setFont(Font.font("Verdana", 13));
             double spacing = 170 - taskText.length();
             HBox taskBox = new HBox(spacing, buttonAndNameBox, taskPomNum);
             taskBox.setStyle("-fx-cursor: hand");
-            taskBox.setOnMouseClicked( ( e ) ->
+            taskBox.setOnMouseClicked((e) ->
             {
                 int lastClickedIndex = taskList.getSelectionModel().getSelectedIndex();
                 deleteButton.setDisable(lastClickedIndex < 0);
                 editNameButton.setDisable(lastClickedIndex < 0);
                 editNumPomButton.setDisable(lastClickedIndex < 0);
-            } );
+            });
             taskItems.add(taskBox);
             taskBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -336,7 +337,7 @@ public class Controller implements Initializable {
     }
 
     private void playTimerSound() {
-        String path = Objects.requireNonNull(getClass().getResource("res/timerSound.mp3")).toString();
+        String path = Objects.requireNonNull(getClass().getClassLoader().getResource("main/resources/sounds/timerSound.mp3")).toString();
         Media sound = new Media(path);
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
@@ -366,7 +367,7 @@ public class Controller implements Initializable {
         timerLabel.setText(model.getRemainingTime());
         pomodoroNumLabel.setText("Pomodoro Number: " + model.getNumPomodoros());
 
-        pomTaskText.textProperty().addListener( (e)-> {
+        pomTaskText.textProperty().addListener((e) -> {
             deleteButton.setDisable(true);
             editNameButton.setDisable(true);
             editNumPomButton.setDisable(true);
