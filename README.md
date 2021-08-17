@@ -22,4 +22,4 @@ The Pomodoro Technique is a time management method that alternates between pomod
 Following the MVC pattern, this project uses Java and JavaFX. Scenebuilder in IntelliJ IDEA was also used to build the UI.
 
 ### ⬇️ Download
-Download Pomodoro Timer jar.
+[Download](https://github.com/jessicayu62/pomodoro-timer/raw/main/jar/PomodoroTimer.jar) Pomodoro Timer jar.
